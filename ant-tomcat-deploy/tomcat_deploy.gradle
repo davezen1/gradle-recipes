@@ -1,0 +1,113 @@
+/*
+	Gradle Tasks Translated from the Apache Tomcat Deployer build.xml file
+*/
+
+def TOMCAT_GROUP='Apache Tomcat Deployment'
+
+
+ext {
+    tomcatUrl = project.hasProperty('tomcat.url') ? project.getProperty('tomcat.url') : null
+    tomcatUser = project.hasProperty('tomcat.user') ? project.getProperty('tomcat.user') : null
+    tomcatPassword = project.hasProperty('tomcat.password') ? project.getProperty('tomcat.password') : null
+    appPath = project.hasProperty('context.path') ? project.getProperty('context.path') : null
+    warFile = project.hasProperty('war.file') ? project.getProperty('war.file') : null
+}
+
+task setup << {
+	
+	configurations.devops.each { File file -> println file.name }
+	
+	ant.taskdef(resource: 'org/apache/catalina/ant/catalina.tasks', 
+			classpath: configurations.devops.asPath) 
+
+}
+  
+task deploy(group: TOMCAT_GROUP, description: 'Deploy to Apache Tomcat') << {
+		println tomcatUrl
+		println appPath 
+
+		ant.tomcatUrl = tomcatUrl
+		ant.tomcatUser = tomcatUser
+		ant.tomcatPassword = tomcatPassword
+		ant.path = appPath
+		ant.warFile = warFile
+		println ant.tomcatUrl
+		println ant.warFile
+
+   ant.deploy(url: "${tomcatUrl}", 
+   	username: '${tomcatUser}', 
+   	password: '${tomcatPassword}',
+		path: '${path}', 
+		war: "${warFile}", 
+		update: true)
+
+
+} dependsOn war, setup
+
+task undeploy(group: TOMCAT_GROUP, description: 'Undeploy app from Apache Tomcat') << {
+
+	
+	ant.tomcatUrl = tomcatUrl
+	ant.tomcatUser = tomcatUser
+	ant.tomcatPassword = tomcatPassword
+  ant.path = appPath
+
+  ant.undeploy(url: '${tomcatUrl}', 
+   	username: '${tomcatUser}', 
+   	password: '${tomcatPassword}',
+		path: '${path}')
+
+
+} dependsOn setup
+
+
+task stop(group: TOMCAT_GROUP, description: 'Stop app on Apache Tomcat') << {
+
+	
+	ant.tomcatUrl = tomcatUrl
+	ant.tomcatUser = tomcatUser
+	ant.tomcatPassword = tomcatPassword
+  ant.path = appPath
+
+  ant.stop(url: '${tomcatUrl}', 
+   	username: '${tomcatUser}', 
+   	password: '${tomcatPassword}',
+		path: '${path}')
+
+
+} dependsOn setup
+
+
+task start(group: TOMCAT_GROUP, description: 'Start app on Apache Tomcat') << {
+
+	
+	ant.tomcatUrl = tomcatUrl
+	ant.tomcatUser = tomcatUser
+	ant.tomcatPassword = tomcatPassword
+  ant.path = appPath
+
+  ant.start(url: '${tomcatUrl}', 
+   	username: '${tomcatUser}', 
+   	password: '${tomcatPassword}',
+		path: '${path}')
+
+
+} dependsOn setup
+
+
+
+task reload(group: TOMCAT_GROUP, description: 'Reload app on Apache Tomcat') << {
+
+	
+	ant.tomcatUrl = tomcatUrl
+	ant.tomcatUser = tomcatUser
+	ant.tomcatPassword = tomcatPassword
+  ant.path = appPath
+
+  ant.reload(url: '${tomcatUrl}', 
+   	username: '${tomcatUser}', 
+   	password: '${tomcatPassword}',
+		path: '${path}')
+
+
+} dependsOn setup
