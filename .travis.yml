@@ -1,3 +1,6 @@
 language: java
-
-script: sh -c 'cd ant-tomcat-deploy'
+jdk:
+  - oraclejdk8
+script: 
+  - sh -c 'cd ant-tomcat-deploy'
+  - ./gradlew assemble
