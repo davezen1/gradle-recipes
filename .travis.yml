@@ -1,4 +1,7 @@
 language: java
 jdk:
   - oraclejdk8
-script: cd ant-tomcat-deploy && gradlew assemble
+before_install:
+ - cd ant-tomcat-deploy 
+ - chmod a+x gradlew
+script: ./gradlew assemble
