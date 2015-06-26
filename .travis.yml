@@ -5,3 +5,5 @@ before_install:
  - cd ant-tomcat-deploy 
  - chmod a+x gradlew
 script: ./gradlew assemble
+notifications:
+  slack: lucidtechnics:dIicMIf8mJI5u7JmlvOGuct5
