@@ -3,4 +3,4 @@ jdk:
   - oraclejdk8
 script: 
   - sh -c 'cd ant-tomcat-deploy'
-  - ./gradlew assemble
+  - gradlew assemble
